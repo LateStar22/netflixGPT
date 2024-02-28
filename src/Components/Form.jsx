@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 
-const Form = () => {
+const Form = (props) => {
     const form = useForm({
         defaultValues : {
             firstname : "",
@@ -15,9 +15,39 @@ const Form = () => {
         console.log("form submitted",data);
     };
 
+    const {stateChanger,action} = props;
+
     return (//noValidate will prevent by default browser form validation.
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate> 
+            {action === "Sign Up" && (
+                    <>
+                        <input
+                            type="text"
+                            id='additional-input-1'
+                            name='first'
+                            placeholder='First Name'
+                            className='h-[60px] w-full bg-slate-900 bg-opacity-40 rounded-sm mb-2 outline-none box-border focus:border-4 px-1 border-2'
+                            {...register('first',{
+                                required: { //used required here.
+                                    value : true,
+                                    message : "First Name required"}
+                            })}
+                        />
+                        <input
+                            type="text"
+                            id='additional-input-2'
+                            name='LastName'
+                            placeholder='Last Name'
+                            className='h-[60px] w-full bg-slate-900 bg-opacity-40 rounded-sm mb-2 outline-none box-border focus:border-4 px-1 border-2'
+                            {...register('additionalInput2',{
+                                required: { //used required here.
+                                    value : true,
+                                    message : "Last Name required"}
+                            })}
+                        />
+                    </>
+                )}
                 <input
                     type="text"
                     id='fname'
@@ -59,7 +89,7 @@ const Form = () => {
                     })}
                 />
                 <p className='text-red-700'>{errors.password?.message}</p>
-                <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>Sign In</button>
+                <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>{action}</button>
             </form>
             <DevTool control={control} />
         </>
