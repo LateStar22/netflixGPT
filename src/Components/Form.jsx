@@ -1,81 +1,103 @@
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
+import { useUserContext } from "../Contexts/userContext"
+import { useNavigate } from 'react-router-dom';
+import  auth from "../firebaseConfig";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { useAction } from '../Contexts/actionContext';
 
 const Form = (props) => {
     const form = useForm({
-        defaultValues : {
-            firstname : "",
-            password : ""
+        defaultValues: {
+            firstname: "",
+            password: ""
         }
-    }); //form is an object here. It helps in 1. manage form data 2. submit form data 3. Enforce validation and provide visual feedback
-    const { register, control,handleSubmit,formState } = form; //formState object contains Error for all form fields.
-    const {errors} = formState;
+    });
+    const navigate = useNavigate();
+    const { register, control, handleSubmit, formState } = form;
+    const { errors } = formState;
+    console.log("Errors",errors);
 
-    const onSubmit = (data) => { // we can also post this data to an API on fly right from here.
-        console.log("form submitted",data);
+    // const auth = getAuth(firebaseApp); no need to use it again and again in all components as we have centralized the Firebase authentication initialization in firebaseconfig.js file 
+
+    const { action, stateChanger } = props;
+
+    const { setUser } = useUserContext();
+
+    const { setAction } = useAction();
+
+    const onSignUp = async (data) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+            const user = userCredential.user;
+            alert("SIgned Up!")
+            stateChanger(); //as soon as we are successfully signed up, we have to change the state of Login.jsx to Sign In.
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage)
+        }
     };
 
-    const {stateChanger,action} = props;
+    const onSignIn = async (data) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+            const user = userCredential.user;
+            setUser(user);
+            navigate("/browse")
+            setAction("Sign Up")
+            alert("Successfully Signed In!")
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+        }
+    };
 
-    return (//noValidate will prevent by default browser form validation.
+
+    return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate> 
-            {action === "Sign Up" && (
+            <form onSubmit={handleSubmit(action === "Sign Up" ? onSignUp : onSignIn)} noValidate>
+                {action === "Sign Up" && (
                     <>
                         <input
                             type="text"
-                            id='additional-input-1'
-                            name='first'
+                            id='firstname'
+                            name='firstname'
                             placeholder='First Name'
                             className='h-[60px] w-full bg-slate-900 bg-opacity-40 rounded-sm mb-2 outline-none box-border focus:border-4 px-1 border-2'
-                            {...register('first',{
-                                required: { //used required here.
-                                    value : true,
-                                    message : "First Name required"}
+                            {...register('firstname', {
+                                required: "First Name required",
                             })}
                         />
+                        <p className='text-red-700'>{errors.firstname?.message}</p>
                         <input
                             type="text"
-                            id='additional-input-2'
-                            name='LastName'
+                            id='Lastname'
+                            name='Lastname'
                             placeholder='Last Name'
                             className='h-[60px] w-full bg-slate-900 bg-opacity-40 rounded-sm mb-2 outline-none box-border focus:border-4 px-1 border-2'
-                            {...register('additionalInput2',{
-                                required: { //used required here.
-                                    value : true,
-                                    message : "Last Name required"}
+                            {...register('Lastname', {
+                                required: "Last Name required", 
                             })}
                         />
+                        <p className='text-red-700'>{errors.Lastname?.message}</p>
                     </>
                 )}
                 <input
                     type="text"
-                    id='fname'
-                    name='firstname'
+                    id='email'
+                    name='email'
                     placeholder='Email or phone number'
                     className='h-[60px] w-full bg-slate-900 bg-opacity-40 rounded-sm mb-2 outline-none box-border focus:border-4 px-1 border-2'
-                    {...register('firstname', {  //by using register now this input field is being tracked by react-hook-form. 
-                        pattern: { //using pattern validation, we can use required also
-                            value : /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                            message : "Invalid Email format",
-                        },
-                        validate : {
-                            notAdmin : (fieldValue) => {
-                                return (
-                                    fieldValue !== "admin@gmail.com" || 
-                                    "Enter a valid email address"
-                                );
-                            },
-                            notBadDomain : (fieldValue) => {
-                                return (
-                                    !fieldValue.includes("baddomain.com") || 
-                                    "This domain is not supported"
-                                );
-                            }
+                    {...register('email', {
+                        pattern: {
+                            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                            message: "Invalid Email format",
                         }
                     })}
                 />
-                <p className='text-red-700'>{errors.firstname?.message}</p>
+                <p className='text-red-700'>{errors.email?.message}</p>
                 <input
                     type="password"
                     id='password'
@@ -83,13 +105,17 @@ const Form = (props) => {
                     placeholder='Your Password'
                     className='h-[60px] w-full bg-slate-900 bg-opacity-40 rounded-sm mb-2 outline-none box-border focus:border-4 px-1 border-2'
                     {...register('password', {
-                        required: { //used required here.
-                            value : true,
-                            message : "password required"}
+                        required: "Password is required",
                     })}
                 />
                 <p className='text-red-700'>{errors.password?.message}</p>
-                <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>{action}</button>
+                {
+                    action === "Sign In" ? (
+                            <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>{action}</button>
+                    ) : (
+                        <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>{action}</button>
+                    )
+                }
             </form>
             <DevTool control={control} />
         </>

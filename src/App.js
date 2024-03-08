@@ -1,8 +1,14 @@
 import Body from './Components/Body';
+import { UserContextProvider } from "./Contexts/userContext"
+import { ActionContextProvider } from "./Contexts/actionContext"
 
 function App() {
   return (
-    <Body />
+    <UserContextProvider>
+      <ActionContextProvider>
+        <Body />
+      </ActionContextProvider>
+    </UserContextProvider>
   );
 }
 

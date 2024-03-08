@@ -1,13 +1,12 @@
 import React from 'react';
 import logo from "../images/logo.png";
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import Form from './Form';
-import { useState } from 'react';
+import { useAction } from "../Contexts/actionContext";
 
 
 const Login = () => {
 
-  const [action, setAction] = useState("Sign In");
+  const {action, setAction} = useAction();
   
   const stateChanger = () => { // lifting state up.
       setAction("Sign In");
@@ -17,7 +16,7 @@ const Login = () => {
     <div className='bg-cover bg-center' style={{ backgroundImage: `url(${require("../images/header-image.png")})` }}>
       <div className='bg-black bg-opacity-60'>
         <img src={logo} alt="logo" className='h-[70px] pt-5 pl-20' />
-        <div className='h-[700px] w-[400px] bg-black bg-opacity-60 m-auto my-16 p-14 text-white'>
+        <div className='min-h-fit w-[400px] bg-black bg-opacity-60 m-auto my-16 p-14 text-white'>
           <h1 className='text-3xl font-bold mb-6'>{action}</h1>
          
           <Form stateChanger = {stateChanger} action={action}/>

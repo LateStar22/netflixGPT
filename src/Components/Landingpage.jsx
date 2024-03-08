@@ -1,7 +1,6 @@
 import React from 'react'
 import Header from './Header'
 import { Link } from 'react-router-dom'
-import myimage from "../images/header-image.png"
 import feature_1 from "../images/feature-1.png"
 import feature_2 from "../images/feature-2.png"
 import feature_3 from "../images/feature-3.png"
