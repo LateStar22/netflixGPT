@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { useUserContext } from "../Contexts/userContext"
-import { useNavigate } from 'react-router-dom';
-import  auth from "../firebaseConfig";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate, Navigate } from 'react-router-dom';
+import auth from "../firebaseConfig";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useAction } from '../Contexts/actionContext';
 
 const Form = (props) => {
@@ -16,8 +16,6 @@ const Form = (props) => {
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = form;
     const { errors } = formState;
-    console.log("Errors",errors);
-
     // const auth = getAuth(firebaseApp); no need to use it again and again in all components as we have centralized the Firebase authentication initialization in firebaseconfig.js file 
 
     const { action, stateChanger } = props;
@@ -44,8 +42,8 @@ const Form = (props) => {
             const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
             const user = userCredential.user;
             setUser(user);
-            navigate("/browse")
-            setAction("Sign Up")
+            setAction("Sign Up");
+            navigate("/browse");
             alert("Successfully Signed In!")
         } catch (error) {
             const errorCode = error.code;
@@ -78,7 +76,7 @@ const Form = (props) => {
                             placeholder='Last Name'
                             className='h-[60px] w-full bg-slate-900 bg-opacity-40 rounded-sm mb-2 outline-none box-border focus:border-4 px-1 border-2'
                             {...register('Lastname', {
-                                required: "Last Name required", 
+                                required: "Last Name required",
                             })}
                         />
                         <p className='text-red-700'>{errors.Lastname?.message}</p>
@@ -110,11 +108,9 @@ const Form = (props) => {
                 />
                 <p className='text-red-700'>{errors.password?.message}</p>
                 {
-                    action === "Sign In" ? (
-                            <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>{action}</button>
-                    ) : (
-                        <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>{action}</button>
-                    )
+
+                    <button type='submit' className='h-[50px] w-full bg-red-600 mt-2 mb-4'>{action}</button>
+
                 }
             </form>
             <DevTool control={control} />

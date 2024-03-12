@@ -7,7 +7,6 @@ import { useAction } from "../Contexts/actionContext";
 const Login = () => {
 
   const {action, setAction} = useAction();
-  
   const stateChanger = () => { // lifting state up.
       setAction("Sign In");
   }
