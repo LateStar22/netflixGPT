@@ -1,9 +1,9 @@
 import React from 'react'
 
-const mainContainer = () => {
+const MainContainer = () => {
   return (
-    <div>mainContainer</div>
+    <div className='text-yellow-400'>mainContainer</div>
   )
 }
 
-export default mainContainer
+export default MainContainer
