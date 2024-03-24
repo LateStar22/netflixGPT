@@ -22,7 +22,7 @@ const Header = () => {
   }
 
   return (
-    <div className='text-white flex justify-between bg-gradient-to-b from-black'>
+    <div className='text-white flex justify-between bg-gradient-to-b from-black sticky top-0 z-10'>
       <img src={logo} alt="logo" className='h-[50px] pt-5 pl-10' />
         <ul className='flex pt-5 relative right-[200px]'>
           <li className='mx-4 cursor-pointer  hover:font-bold transition-all '>Home</li>

@@ -1,13 +1,14 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 
-const moviesContext = createContext(null);
+export const moviesContext = createContext(null);
 
-export const moviesContextProvider = (props) => {
-
-    const[movies,setMovies] = useState([]);
-
-    <moviesContext.Provider value={{movies,setMovies}}>
-        {props.children}
-    </moviesContext.Provider>    
-
+export const MoviesContextProvider = (props) => {
+    const [movies, setMovies] = useState([]);
+    return (
+        <moviesContext.Provider value={{ movies, setMovies }}>
+            {props.children}
+        </moviesContext.Provider>
+    )
 }
+
+export const useMoviesContext = () => useContext(moviesContext); //best practice.

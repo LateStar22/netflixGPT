@@ -1,9 +1,12 @@
 import React from 'react'
-
+import VideoContainer from './VideoContainer';
 const MainContainer = () => {
+
   return (
-    <div className='text-yellow-400'>mainContainer</div>
-  )
+    <div className='h-screen bg-yellow-900 mt-2'>
+        <VideoContainer></VideoContainer>
+    </div>
+  );
 }
 
-export default MainContainer
+export default MainContainer;
