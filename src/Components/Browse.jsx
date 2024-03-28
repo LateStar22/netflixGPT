@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import { usePlayingMovies } from "../Hooks/usePlayingMovies"
-import MainContainer from "./mainContainer";
+import MainContainer from "./MainContainer";
 import SecondaryContainer from './secondaryContainer';
 
 

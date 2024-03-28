@@ -6,14 +6,13 @@ import { useMoviesContext } from "../Contexts/moviesContext";
 export const usePlayingMovies = () => {
 
     const [loading, setLoading] = useState(true); // State to track loading status
-    const { setMovies } = useMoviesContext();
+    const { setMovies, movies } = useMoviesContext();
     const nowPlayingMovies = async () => {
         try {
             const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?lpage=1', options);
             const data = await response.json();
             const movies = data.results; // results is the sepecific to TMDB api.
             console.log(movies);
-            console.log("1");
             if (movies.length > 0) {
                 setMovies(movies);
               }
@@ -28,5 +27,5 @@ export const usePlayingMovies = () => {
         nowPlayingMovies();
     }, []);
 
-    return { loading };
+    return { loading, movies };
 }

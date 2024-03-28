@@ -3,7 +3,7 @@ import VideoContainer from './VideoContainer';
 const MainContainer = () => {
 
   return (
-    <div className='h-screen bg-yellow-900 mt-2'>
+    <div className='h-[800px] mt-2'>
         <VideoContainer></VideoContainer>
     </div>
   );
