@@ -1,17 +1,14 @@
 import React from 'react'
 import MovieCard from './movieCard';
-import { useMoviesContext } from '../Contexts/moviesContext';
 
 const MovieCardContainer = (props) => {
-    const { movies } = useMoviesContext();
-    const modifiedMovies = movies.map(({ id, original_title, release_date, poster_path }) => ({
+    const { title, movies } = props;
+
+    const modifiedMovies = movies.map(({ id, poster_path }) => ({
         id,
-        original_title,
-        release_date,
         poster_path
     }))
 
-    const { title } = props;
 
     return (
         <div className='mx-5 text-white my-4'>

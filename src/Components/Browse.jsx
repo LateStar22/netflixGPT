@@ -6,12 +6,12 @@ import SecondaryContainer from './secondaryContainer';
 
 
 const Browse = () => {
-  const { loading } = usePlayingMovies();
+  const { loadingNowPlayingMOvies } = usePlayingMovies();
   return (
     <div className='bg-black min-h-fit'>
       <Header />
       {
-        loading ? (
+        loadingNowPlayingMOvies ? (
           <div className='h-screen bg-red-400'>
           </div>
         ) : (

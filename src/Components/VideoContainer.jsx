@@ -5,7 +5,7 @@ import { useMainMovieTrailer } from '../Hooks/useMainMovieTrailer';
 
 const VideoContainer = () => {
   const { movies } = useMoviesContext();
-  const mainMovie = movies[5];
+  const mainMovie = movies[9];
   const {
     original_title,
     overview,
