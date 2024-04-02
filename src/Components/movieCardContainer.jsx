@@ -13,7 +13,7 @@ const MovieCardContainer = (props) => {
     return (
         <div className='mx-5 text-white my-4'>
             <div className='text-2xl'>{title}</div>
-            <div className='mt-4 flex overflow-x-auto'>
+            <div className='mt-4 flex overflow-x-auto flex-container'>
                 {
                     modifiedMovies.map((movie) => {
                         return (

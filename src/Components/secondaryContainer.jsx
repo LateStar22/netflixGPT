@@ -5,13 +5,14 @@ import { usePlayingMovies } from '../Hooks/usePlayingMovies';
 import useTopRatedMovies from '../Hooks/useTopRatedMovies';
 
 const SecondaryContainer = () => {
+  console.log("SecondaryContainer")
 
   const { loadingNowPlayingMOvies, movies } = usePlayingMovies();
   const { loadingPopularMovies, popularMovies } = usePopularMovies();
   const { loadingTopRatedMovies, topRatedMovies} = useTopRatedMovies();
 
   return (
-    <div className='mt-3 select-none'>
+    <div className='mt-3 select-none pb-4'>
       {
         loadingNowPlayingMOvies ? (
           <div className='flex mx-5 my-4'>

@@ -5,7 +5,7 @@ import Browse from './Browse';
 import Login from './Login';
 import Landingpage from './Landingpage';
 
-const Body = () => {
+const  Body = () => {
 
   const { action } = useAction();
 

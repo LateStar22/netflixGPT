@@ -1,28 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
-import { usePlayingMovies } from "../Hooks/usePlayingMovies"
-import MainContainer from "./MainContainer";
-import SecondaryContainer from './secondaryContainer';
-
+import GPTSearch from './GPTSearch';
+import MainContainer from './MainContainer'; // Import MainContainer
+import SecondaryContainer from './SecondaryContainer'; // Import SecondaryContainer
+import { usePlayingMovies } from "../Hooks/usePlayingMovies";
 
 const Browse = () => {
-  const { loadingNowPlayingMOvies } = usePlayingMovies();
+  console.log("Browse component is rendering");
+  const { loadingNowPlayingMovies } = usePlayingMovies();
+  const [showGPT, setShowGPT] = useState(false);
+
+  const toggleGPT = () => {
+    setShowGPT(!showGPT);
+  }
+
+
+  const [selectedLang, setSelectedLang] = useState("en");
+
+  const handleChangeLang = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedLang(selectedValue);
+}
+
+
+
   return (
-    <div className='bg-black min-h-fit'>
-      <Header />
-      {
-        loadingNowPlayingMOvies ? (
-          <div className='h-screen bg-red-400'>
-          </div>
-        ) : (
-          <div>
-            <MainContainer></MainContainer>
-            <SecondaryContainer></SecondaryContainer>
-          </div>
-        )
-      }
+    <div className='bg-red-400 min-h-screen'>
+      <Header toggleGPT={toggleGPT} showGPT = {showGPT} handleChangeLang = {handleChangeLang}/>
+      {showGPT ? (
+        <GPTSearch selectedLang = {selectedLang}/>
+      ) : (
+        <>
+          {loadingNowPlayingMovies ? (
+            <div className='h-screen bg-red-400'>
+              {/* Loading UI */}
+            </div>
+          ) : (
+            <div className='bg-black'>
+              <MainContainer /> {/* Render MainContainer component */}
+              <SecondaryContainer /> {/* Render SecondaryContainer component */}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default Browse;

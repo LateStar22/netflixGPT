@@ -5,14 +5,12 @@ import { useMainMovieTrailer } from '../Hooks/useMainMovieTrailer';
 
 const VideoContainer = () => {
   const { movies } = useMoviesContext();
-  const mainMovie = movies[9];
-  const {
-    original_title,
-    overview,
-    id
-  } = mainMovie;
+  const mainMovie = movies && movies.length > 10 ? movies[10] : null; // Ensure mainMovie is not null or undefined
 
-  const { mainMovieTrailerData } = useMainMovieTrailer(id); //custom hook.
+  const { original_title, overview, id } = mainMovie || {}; // Destructure properties with default empty object
+
+  const { mainMovieTrailerData } = useMainMovieTrailer(id || ''); // Call hook unconditionally with id as empty string if mainMovie is null
+
   let link = "";
   if (mainMovieTrailerData && mainMovieTrailerData.length > 0) {
     const key = mainMovieTrailerData[0].key;
@@ -21,13 +19,18 @@ const VideoContainer = () => {
 
   return (
     <div className='w-full h-full relative'>
-      <iframe src={link} title="youtube embed" className='w-full h-full'>
-      </iframe>
-      <div className='absolute left-[40px] bottom-[50px]'>
-        <button className='bg-white text-black-600 h-10 w-[200px] rounded-lg mr-5 font-bold'>Play</button>
-        <button className='text-black-600 h-10 w-[200px] rounded-lg font-bold  bg-opacity-50 bg-white'>More Info</button>
-      </div>
-      <VideoTitle title={original_title} overview={overview}></VideoTitle>
+      {mainMovie ? (
+        <>
+          <iframe src={link} title="youtube embed" className='w-full h-full'></iframe>
+          <div className='absolute left-[40px] bottom-[50px]'>
+            <button className='bg-white text-black-600 h-10 w-[200px] rounded-lg mr-5 font-bold'>Play</button>
+            <button className='text-black-600 h-10 w-[200px] rounded-lg font-bold  bg-opacity-50 bg-white'>More Info</button>
+          </div>
+          <VideoTitle title={original_title} overview={overview}></VideoTitle>
+        </>
+      ) : (
+        <div className='h-full w-full bg-gray-700 text-white'>Loading...</div>
+      )}
     </div>
   )
 }

@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 import { useMoviesContext } from "../Contexts/moviesContext";
 
 export const usePlayingMovies = () => {
-
     const [loadingNowPlayingMOvies, setLoading] = useState(true); // State to track loading status
     const { setMovies, movies } = useMoviesContext();
     const nowPlayingMovies = async () => {
         try {
-            const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?lpage=1', options);
+            console.log("inside now_playing");
+            const response = await fetch('https://api.themoviedb.org/3/movie/now_playing', options);
             const data = await response.json();
             const movies = data.results; // results is the sepecific to TMDB api.
             console.log("movies",movies);
@@ -18,7 +18,7 @@ export const usePlayingMovies = () => {
               }
             setLoading(false); // Set loading to false when data is fetched
         } catch (error) {
-            console.log("Error:", error);
+            console.log("Errorasdasdasdasd:", error);
             setLoading(false); // Set loading to false on error
         }
     }

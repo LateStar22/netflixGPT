@@ -7,3 +7,13 @@ export const options = {
 };
 
 export const img_url = "https://image.tmdb.org/t/p/w500/";
+
+
+export const SUPPORTED_LANGUAGES = [
+  { identifier : "en", name : "English"},
+  { identifier : "hindi", name : "Hindi"},
+  { identifier : "spanish", name : "Spanish"},
+  { identifier : "marathi", name : "Marathi"},
+  { identifier : "telugu", name : "Telugu"},
+  { identifier : "bhojpuri", name : "Bhojpuri"},
+]
